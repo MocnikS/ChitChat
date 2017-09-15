@@ -49,6 +49,7 @@ public class Window extends JFrame {
 		
 		cts = new CallsToServer();
 		initUI();
+		// odjava, ko zapremo okno
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -77,6 +78,7 @@ public class Window extends JFrame {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
+		// napis Username
 		JLabel usernamaeLabel = new JLabel("Username:");
 		GridBagConstraints gbc_usernamaeLabel = new GridBagConstraints();
 		gbc_usernamaeLabel.anchor = GridBagConstraints.EAST;
@@ -85,6 +87,7 @@ public class Window extends JFrame {
 		gbc_usernamaeLabel.gridy = 1;
 		getContentPane().add(usernamaeLabel, gbc_usernamaeLabel);
 		
+		// polje za vnos Username
 		username = new JTextField();
 		username.setText(cts.username);
 		GridBagConstraints gbc_username = new GridBagConstraints();
@@ -96,6 +99,7 @@ public class Window extends JFrame {
 		getContentPane().add(username, gbc_username);
 		username.setColumns(10);
 		
+		// gumb Loggin
 		JButton logginButton = logginButton();
 		GridBagConstraints gbc_logginButton = new GridBagConstraints();
 		gbc_logginButton.anchor = GridBagConstraints.NORTHWEST;
@@ -104,6 +108,7 @@ public class Window extends JFrame {
 		gbc_logginButton.gridy = 1;
 		getContentPane().add(logginButton, gbc_logginButton);
 		
+		// gumb Loggout
 		JButton loggoutButton = loggoutButton();
 		GridBagConstraints gbc_loggoutButton = new GridBagConstraints();
 		gbc_loggoutButton.insets = new Insets(0, 0, 5, 5);
@@ -112,6 +117,7 @@ public class Window extends JFrame {
 		gbc_loggoutButton.gridy = 1;
 		getContentPane().add(loggoutButton, gbc_loggoutButton);
 		
+		// napis Active users
 		JLabel activeUsersLabel = new JLabel("Active users:");
 		GridBagConstraints gbc_activeUsersLabel = new GridBagConstraints();
 		gbc_activeUsersLabel.gridwidth = 2;
@@ -120,6 +126,7 @@ public class Window extends JFrame {
 		gbc_activeUsersLabel.gridy = 2;
 		getContentPane().add(activeUsersLabel, gbc_activeUsersLabel);
 		
+		// platno za sporocila
 		messages = new JTextArea();
 		messages.setDisabledTextColor(Color.BLACK);
 		messages.setEnabled(false);
@@ -138,6 +145,7 @@ public class Window extends JFrame {
 		gbc_scrollPane.gridy = 3;
 		getContentPane().add(scrollPane, gbc_scrollPane);
 		
+		// platno za uporabnike
 		allUsernames = addAllUsers();
 		GridBagConstraints gbc_list = new GridBagConstraints();
 		gbc_list.gridwidth = 2;
@@ -147,7 +155,8 @@ public class Window extends JFrame {
 		gbc_list.gridy = 3;
 		getContentPane().add(allUsernames, gbc_list);
 		
-		JLabel messageLabel = new JLabel("New label");
+		// napis Message
+		JLabel messageLabel = new JLabel("Message:");
 		GridBagConstraints gbc_messageLabel = new GridBagConstraints();
 		gbc_messageLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_messageLabel.anchor = GridBagConstraints.EAST;
@@ -155,6 +164,7 @@ public class Window extends JFrame {
 		gbc_messageLabel.gridy = 4;
 		getContentPane().add(messageLabel, gbc_messageLabel);
 		
+		// polje za vnos sporocila
 		message = new JTextField();
 		GridBagConstraints gbc_message = new GridBagConstraints();
 		gbc_message.gridwidth = 3;
@@ -166,6 +176,7 @@ public class Window extends JFrame {
 		message.setColumns(10);
 		message.setEditable(false);
 		
+		// gumb Send
 		JButton sendButton = sendButton();
 		GridBagConstraints gbc_sendButton = new GridBagConstraints();
 		gbc_sendButton.insets = new Insets(0, 0, 5, 5);
@@ -194,6 +205,7 @@ public class Window extends JFrame {
 		Timer timer = new Timer(5000 , refreshMessages);
 		timer.setRepeats(true);
 		timer.start();
+		// osvezimo sporočila na 5s
 		
 		ActionListener refreshUsers = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -201,7 +213,7 @@ public class Window extends JFrame {
 				List<String> usernames;
 				try {
 					usernames = cts.getUsernames();
-					// Zbrisi vse uporabnike ki so se odjavili
+					// zbrisi vse uporabnike, ki so se odjavili
 					int i = 0;
 					while(i < model.getSize()) {
 						String username = (String)model.getElementAt(i);
@@ -217,7 +229,7 @@ public class Window extends JFrame {
 						i = i + 1;
 					}
 					
-					
+					// dodaj vse uporabnike, ki so se prijavili
 					for(String user : usernames) {
 						i = 0;
 						boolean isNew = true;
@@ -246,6 +258,7 @@ public class Window extends JFrame {
 		Timer refreshUsersTask = new Timer(8000,refreshUsers);
 		refreshUsersTask.setRepeats(true);
 		refreshUsersTask.start();
+		// osvezi uporabnike na 8s
 	}
 	
 	private JButton logginButton(){
